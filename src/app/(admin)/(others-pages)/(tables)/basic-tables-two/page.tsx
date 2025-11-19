@@ -2,9 +2,10 @@ import ComponentCard from "@/components/common/ComponentCard";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import RecentOrders from "@/components/ecommerce/RecentOrders";
 import Details from "@/components/product/Details";
-import BasicTableTwo from "@/components/tables/BasicTableTwo";
 import { Metadata } from "next";
 import React from "react";
+import RefTable from "@/components/tables/RefTable";
+import UsersTable from "@/components/tables/UsersTable";
 
 export const metadata: Metadata = {
   title: "Next.js Basic Table | TailAdmin - Next.js Dashboard Template",
@@ -21,10 +22,10 @@ export default function BasicTablesTwo() {
 
               <div className="col-span-12 xl:col-span-3 space-y-6">
                 <ComponentCard title="Users">
-                  <BasicTableTwo />
+                  <UsersTable />
                 </ComponentCard>
-                <ComponentCard title="Basic Table 2">
-                  <BasicTableTwo />
+                <ComponentCard title="References">
+                  <RefTable />
                 </ComponentCard>
               </div>
 

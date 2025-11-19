@@ -22,13 +22,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { societe, liste_noire, observation } = body; // adjust fields as per your table
+  const { id, nom, liste_noire, observation } = body; // adjust fields as per your table
   const connection = await getConnection();
 
   // Insert a new client
   const [result] = await connection.query(
-    'INSERT INTO client (societe, liste_noire, observation) VALUES (?, ?, ?)',
-    [societe, liste_noire, observation]
+    'INSERT INTO client (id, nom, liste_noire, observation) VALUES (?, ?, ?, ?)',
+    [id, nom, liste_noire, observation]
   ) as [mysql.ResultSetHeader, any];
   await connection.end();
   return NextResponse.json({ insertId: (result as mysql.ResultSetHeader).insertId });
@@ -36,13 +36,13 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   const body = await request.json();
-  const { id, name, email, phone } = body; // id of client to edit
+  const { id, nom, liste_noire, observation } = body; // id of client to edit
   const connection = await getConnection();
 
   // Update client
   await connection.query(
-    'UPDATE client SET name = ?, email = ?, phone = ? WHERE id = ?',
-    [name, email, phone, id]
+    'UPDATE client SET nom = ?, liste_noire = ?, observation = ? WHERE id = ?',
+    [id, nom, liste_noire, observation]
   );
   await connection.end();
   return NextResponse.json({ message: 'Client updated' });
