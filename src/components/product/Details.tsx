@@ -5,9 +5,13 @@ import Label from "@/components/form/Label";
 import Select from "@/components/form/Select";
 import Button from "@/components/ui/button/Button";
 import { ChevronDownIcon } from "@/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function Details() {
+interface DetailsProps {
+  product: any | null;
+}
+
+export default function Details({ product }: DetailsProps) {
   const options1 = [
     { value: "A", label: "Marketing" },
     { value: "B", label: "Template" },
@@ -43,6 +47,34 @@ export default function Details() {
     { value: "B", label: "Template" },
     { value: "C", label: "Development" },
   ];
+
+
+
+  useEffect(() => {
+    const url = selectedUserId
+      ? `/api/product?clientId=${selectedUserId}`
+      : '/api/product';
+
+    fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(res => res.json())
+      .then(data => {
+        const formattedData = data.map((item: any) => ({
+          id: item.id,
+          reference: item.reference,
+          clientId: item.id_client,
+          clientName: item.nom
+        }));
+        setTableData(formattedData);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching products:', error);
+        setLoading(false);
+      });
+  }, [selectedUserId]);
 
 
   function addProduct() {

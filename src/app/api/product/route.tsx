@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mysql from 'mysql2/promise';
 
-// Create a helper to connect to MySQL. For demonstration, connection is inside the handler.
-// For production, consider moving connection pooling outside the handler.
+
 async function getConnection() {
   return mysql.createConnection({
     host: 'localhost',
@@ -13,9 +12,29 @@ async function getConnection() {
 }
 
 export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const clientId = searchParams.get('clientId');
+
   const connection = await getConnection();
-  // Fetch all produits
-  const [rows] = await connection.query('SELECT * FROM produit');
+
+  let query = `
+    SELECT
+      p.*,
+      pc.id_client,
+      c.nom as client_nom
+    FROM produit p
+    LEFT JOIN produit_client pc ON p.id = pc.id_produit
+    LEFT JOIN client c ON pc.id_client = c.id
+  `;
+
+  const params: any[] = [];
+
+  if (clientId) {
+    query += ' WHERE pc.id_client = ?';
+    params.push(clientId);
+  }
+
+  const [rows] = await connection.query(query, params);
   await connection.end();
   return NextResponse.json(rows);
 }
