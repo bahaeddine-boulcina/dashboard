@@ -50,31 +50,7 @@ export default function Details({ product }: DetailsProps) {
 
 
 
-  useEffect(() => {
-    const url = selectedUserId
-      ? `/api/product?clientId=${selectedUserId}`
-      : '/api/product';
 
-    fetch(url, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then(res => res.json())
-      .then(data => {
-        const formattedData = data.map((item: any) => ({
-          id: item.id,
-          reference: item.reference,
-          clientId: item.id_client,
-          clientName: item.nom
-        }));
-        setTableData(formattedData);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching products:', error);
-        setLoading(false);
-      });
-  }, [selectedUserId]);
 
 
   function addProduct() {
@@ -112,6 +88,23 @@ export default function Details({ product }: DetailsProps) {
   const [fond, setFond] = useState("");
   const [dotation, setDotation] = useState("");
   const [platine, setPlatine] = useState("");
+
+
+  useEffect(() => {
+    if (Array.isArray(product) && product.length > 0) {
+      setReference(product[0].reference.split(""));
+      setProduit(product[0].produit);
+      setMatiere(product[0].matiere);
+      setPoids(product[0].poids);
+      setDiametre(product[0].diametre);
+      setFixation(product[0].fixation);
+      setRenfortbas(product[0].renfortbas);
+      setFond(product[0].fond);
+      setDotation(product[0].dotation);
+      setPlatine(product[0].platine);
+      setLongueur(product[0].longueur);
+    }
+  }, [product]);
 
   // Always updates the reference code at the given index
   const handleReferenceChange = (idx: number, value: string, multiLetters?: number) => {
@@ -156,6 +149,7 @@ export default function Details({ product }: DetailsProps) {
               <Label>Produit</Label>
               <div className="relative">
                 <Select
+                  value={produit || ""}
                   options={options1}
                   placeholder="Select Option"
                   onChange={(value) => {handleReferenceChange(0, value); setProduit(value);}}
@@ -171,6 +165,7 @@ export default function Details({ product }: DetailsProps) {
               <Label>Matière</Label>
               <div className="relative">
                 <Select
+                  value={matiere || ""}
                   options={options2}
                   placeholder="Select Option"
                   onChange={(value) => {handleReferenceChange(1, value); setMatiere(value);}}
@@ -185,6 +180,7 @@ export default function Details({ product }: DetailsProps) {
               <Label>Poids</Label>
               <div className="relative">
                 <Select
+                  value={poids || ""}
                   options={options3}
                   placeholder="Select Option"
                   onChange={(value) => {
@@ -202,6 +198,7 @@ export default function Details({ product }: DetailsProps) {
             <div className="col-span-1">
               <Label>Diamètre / Largeur (mm)</Label>
               <Input
+                value={diametre || ""}
                 type="text"
                 placeholder="Boruch"
                 onChange={e => {
@@ -215,6 +212,7 @@ export default function Details({ product }: DetailsProps) {
             <div className="col-span-1">
               <Label>Longueur (mm)</Label>
               <Input
+                value={longueur || ""}
                 type="text"
                 placeholder="Boruch"
                 onChange={e => {
@@ -228,6 +226,7 @@ export default function Details({ product }: DetailsProps) {
               <Label>Fixation</Label>
               <div className="relative">
                 <Select
+                  value={fixation || ""}
                   options={options4}
                   placeholder="Select Option"
                   onChange={(value) => {handleReferenceChange(11 , value); setFixation(value);}}
@@ -242,6 +241,7 @@ export default function Details({ product }: DetailsProps) {
               <Label>Renfort-bas</Label>
               <div className="relative">
                 <Select
+                  value={renfortbas || ""}
                   options={options5}
                   placeholder="Select Option"
                   onChange={(value) => {handleReferenceChange(12 , value); setRenfortbas(value);}}
@@ -256,6 +256,7 @@ export default function Details({ product }: DetailsProps) {
               <Label>Fond</Label>
               <div className="relative">
                 <Select
+                  value={fond || ""}
                   options={options6}
                   placeholder="Select Option"
                   onChange={(value) => {handleReferenceChange(13 , value); setFond(value);}}
@@ -270,6 +271,7 @@ export default function Details({ product }: DetailsProps) {
               <Label>Dotation</Label>
               <div className="relative">
                 <Select
+                  value={dotation || ""}
                   options={options7}
                   placeholder="Select Option"
                   onChange={(value) => {handleReferenceChange(14 , value); setDotation(value);}}
@@ -283,6 +285,7 @@ export default function Details({ product }: DetailsProps) {
             <div className="col-span-1">
               <Label>Platine (mm)</Label>
               <Input
+                value={platine || ""}
                 type="text"
                 placeholder="Boruch"
                 onChange={e => setPlatine(e.target.value)}

@@ -26,6 +26,8 @@ export default function RefTable({ selectedUserId, selectedProduct, onSelectProd
   const [search, setSearch] = useState("");
   const [tableData, setTableData] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState([]);
+
 
   useEffect(() => {
   const url = selectedUserId
@@ -41,9 +43,9 @@ export default function RefTable({ selectedUserId, selectedProduct, onSelectProd
       const formattedData = data.map((item: any) => ({
         id: item.id,
         reference: item.reference,
-        clientId: item.id_client,
-        clientName: item.nom
+        clientId: item.id_client
       }));
+      setProduct(data);
       setTableData(formattedData);
       setLoading(false);
     })
@@ -96,8 +98,11 @@ export default function RefTable({ selectedUserId, selectedProduct, onSelectProd
                 {filteredData.map((row) => (
                   <TableRow
                     key={row.id}
-                    className={`hover:bg-gray-50 dark:hover:bg-white/[0.05] ${selectedProduct?.id === row.id ? "bg-blue-50 dark:bg-blue-900/30" : ""}`}
-                    onClick={() => onSelectProduct(row.id)}
+                    className={`cursor-pointer  hover:bg-gray-50 dark:hover:bg-white/[0.05] ${selectedProduct?.[0]?.id === row.id ? "bg-blue-50 dark:bg-blue-900/30" : ""}`}
+                    onClick={() =>
+                    {onSelectProduct(product);
+                    console.log("Selected product:", product);}
+                    }
                   >
                     <TableCell className="px-4 py-3 font-medium text-gray-600 text-start text-theme-sm dark:text-gray-400">
                       {row.reference}
