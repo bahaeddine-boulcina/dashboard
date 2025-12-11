@@ -8,7 +8,11 @@ import {
   TableRow,
 } from "../ui/table";
 import { FaEdit } from "react-icons/fa";
+import { FaUserPlus } from "react-icons/fa6";
+
 import { ScrollShadow } from "@heroui/scroll-shadow";
+import { AddClientModal } from "../modals/AddClientModal";
+import { useModal } from "@/hooks/useModal";
 
 interface ClientData {
   id: number;
@@ -17,10 +21,12 @@ interface ClientData {
 
 interface UsersTableProps {
   selectedUserId: number | null;
-  onSelectUser: (userId: number) => void;
+  onSelectUser: (userId: number | null) => void;
 }
 
 export default function UsersTable({ selectedUserId, onSelectUser }: UsersTableProps) {
+    const { isOpen, openModal, closeModal } = useModal();
+
   const [search, setSearch] = useState("");
   const [tableData, setTableData] = useState<ClientData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,10 +66,21 @@ export default function UsersTable({ selectedUserId, onSelectUser }: UsersTableP
     );
   }
 
+
+
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] p-6 min-h-100 max-h-100">
+
+
       {/* Search Input */}
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-between mb-4">
+        <button
+          className="p-2 rounded text-blue-400 hover:bg-gray-200 dark:hover:bg-gray-800 "
+           onClick={openModal}
+        >
+          <FaUserPlus size={20}  />
+        </button>
+        <AddClientModal isOpen={isOpen} onClose={closeModal} />
         <input
           type="text"
           placeholder="Search…"
@@ -79,7 +96,7 @@ export default function UsersTable({ selectedUserId, onSelectUser }: UsersTableP
               {filteredData.map((row) => (
                 <TableRow
                   key={row.id}
-                  onClick={() => onSelectUser(row.id)}
+                  onClick={() => selectedUserId === row.id ? onSelectUser(null) : onSelectUser(row.id)}
                   className={`cursor-pointer transition-colors ${
                     selectedUserId === row.id
                       ? "bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500"

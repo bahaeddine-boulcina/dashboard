@@ -1,11 +1,11 @@
 "use client";
-import PageBreadcrumb from "@/components/common/PageBreadCrumb";
+
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
 import Select from "@/components/form/Select";
 import Button from "@/components/ui/button/Button";
 import { ChevronDownIcon } from "@/icons";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface DetailsProps {
   product: any | null;
@@ -13,39 +13,81 @@ interface DetailsProps {
 
 export default function Details({ product }: DetailsProps) {
   const options1 = [
-    { value: "A", label: "Marketing" },
-    { value: "B", label: "Template" },
-    { value: "C", label: "Development" },
+    { value: "1", label: "Manche Filtrante" },
+    { value: "2", label: "Poche Filtrante" },
+    { value: "3", label: "Produit Spécifique" },
   ];
   const options2 = [
-    { value: "A", label: "Marketing" },
-    { value: "B", label: "Template" },
-    { value: "C", label: "Development" },
+    { value: "A", label: "Polyester" },
+    { value: "B", label: "Acrylique" },
+    { value: "C", label: "Polyester + Acrylique" },
+    { value: "D", label: "Polypropylène" },
+    { value: "E", label: "Méta-Aramide (NOMEX)" },
+    { value: "F", label: "PPS" },
+    { value: "G", label: "PTFE" },
+    { value: "H", label: "Polyimide (P83)" },
+    { value: "J", label: "Fiberglass (Tissu de verre)" },
   ];
   const options3 = [
-    { value: "50", label: "500" },
-    { value: "55", label: "550" },
-    { value: "60", label: "600" },
+    { value: 300, label: "300" },
+    { value: 350, label: "350" },
+    { value: 400, label: "400" },
+    { value: 450, label: "450" },
+    { value: 500, label: "500" },
+    { value: 550, label: "550" },
+    { value: 600, label: "600" },
+    { value: 650, label: "650" },
+    { value: 700, label: "700" },
+    { value: 750, label: "750" },
+    { value: 770, label: "770" },
+    { value: 800, label: "800" },
   ];
   const options4 = [
-    { value: "A", label: "Marketing" },
-    { value: "B", label: "Template" },
-    { value: "C", label: "Development" },
+    { value: "A", label: "Sans (Coupé Net)" },
+    { value: "B", label: "Anneau Metallique" },
+    { value: "C", label: "Colerette" },
+    { value: "D", label: "Simple Joint Extérieur 20 x 15 mm" },
+    { value: "E", label: "Simple Joint Extérieur 15 x 10 mm" },
+    { value: "F", label: "Double Joint Extérieur 15 x 10 mm" },
+    { value: "G", label: "Snap-Ring + Simple Joint Extérieur 15 x 10 mm" },
+    { value: "H", label: "Snap-Ring + Double Joint Extérieur 15 x 10 mm" },
+    { value: "J", label: "Snap-Ring + Snap-Band" },
+    { value: "K", label: "Simple Bourellet Intérieur" },
+    { value: "L", label: "Double  Bourellet Intérieur" },
+    { value: "M", label: "Snap-Ring + Simple Bourellet Intérieur" },
+    { value: "N", label: "Snap-Ring + Double Bourellet Intérieur" },
+    { value: "P", label: "Anneau Metallique + Anneaux Centraux" },
+    { value: "Q", label: "Anneau Metallique + Snap-Ring" },
+    { value: "R", label: "Collier de Serrage" },
+    { value: "S", label: "Anneau Cousu (Méme Matière)" },
   ];
   const options5 = [
-    { value: "A", label: "Marketing" },
-    { value: "B", label: "Template" },
-    { value: "C", label: "Development" },
+    { value: "0", label: "Sans Renfort-Bas" },
+    { value: "1", label: "Renfort-Bas 100 mm" },
+    { value: "2", label: "Renfort-Bas 150 mm" },
+    { value: "3", label: "Renfort-Bas Poche 70 mm" },
+    { value: "4", label: "Renfort-Bas Poche 70 mm 1 Couture en Longueur" },
+    { value: "5", label: "Renfort-Bas Poche 70 mm 2 Coutures en Longueur" },
+    { value: "6", label: "Support Poche Filtrante" },
   ];
   const options6 = [
-    { value: "A", label: "Marketing" },
-    { value: "B", label: "Template" },
-    { value: "C", label: "Development" },
+    { value: "0", label: "Sans-Fond" },
+    { value: "1", label: "Fond Rond" },
+    { value: "2", label: "Fond Carré" },
+    { value: "3", label: "Double Fond Rond" },
+    { value: "4", label: "Double Fond Carré" },
+    { value: "5", label: "Fond Cousu" },
+    { value: "6", label: "Anneau Métallique" },
+    { value: "7", label: "Fond Oval" },
+    { value: "8", label: "Double Fond Oval" },
+    { value: "9", label: "Snap-Ring" },
   ];
   const options7 = [
-    { value: "A", label: "Marketing" },
-    { value: "B", label: "Template" },
-    { value: "C", label: "Development" },
+    { value: "0", label: "Sans Dotation" },
+    { value: "1", label: "Téte Séparée | Renfort-Bas Séparé" },
+    { value: "2", label: "Téte NON Séparée | Renfort-Bas NON Séparé" },
+    { value: "3", label: "Téte NON Séparée | Renfort-Bas Séparé" },
+    { value: "4", label: "Téte Séparée | Renfort-Bas NON Séparé" },
   ];
 
 
@@ -151,7 +193,7 @@ export default function Details({ product }: DetailsProps) {
                 <Select
                   value={produit || ""}
                   options={options1}
-                  placeholder="Select Option"
+                  placeholder={options1.find(opt => opt.value === produit)?.label || "Select Option"}
                   onChange={(value) => {handleReferenceChange(0, value); setProduit(value);}}
                   className="dark:bg-dark-900"
 
@@ -167,7 +209,7 @@ export default function Details({ product }: DetailsProps) {
                 <Select
                   value={matiere || ""}
                   options={options2}
-                  placeholder="Select Option"
+                  placeholder={options2.find(opt => opt.value === matiere)?.label || "Select Option"}
                   onChange={(value) => {handleReferenceChange(1, value); setMatiere(value);}}
                   className="dark:bg-dark-900"
                 />
@@ -180,12 +222,15 @@ export default function Details({ product }: DetailsProps) {
               <Label>Poids</Label>
               <div className="relative">
                 <Select
-                  value={poids || ""}
+                  value={poids || 0}
                   options={options3}
-                  placeholder="Select Option"
+                  placeholder={
+                    options3.find(opt => opt.value === poids)?.label || "Select Option"
+                  }
                   onChange={(value) => {
-                    const input = value;
-                    handleReferenceChange(2, input.toUpperCase(), 2);
+                    const input = String(value);
+                    const code = input.slice(0, 2);
+                    handleReferenceChange(2, code.toUpperCase(), 2);
                     setPoids(Number(input));
                   }}
                   className="dark:bg-dark-900"
@@ -200,7 +245,7 @@ export default function Details({ product }: DetailsProps) {
               <Input
                 value={diametre || ""}
                 type="text"
-                placeholder="Boruch"
+                placeholder="###"
                 onChange={e => {
                   const input = e.target.value;
                   handleReferenceChange(4, input.toUpperCase(), 3);
@@ -214,7 +259,7 @@ export default function Details({ product }: DetailsProps) {
               <Input
                 value={longueur || ""}
                 type="text"
-                placeholder="Boruch"
+                placeholder="#####"
                 onChange={e => {
                   const input = e.target.value;
                   handleReferenceChange(7, input.toUpperCase(), 4);
@@ -228,7 +273,7 @@ export default function Details({ product }: DetailsProps) {
                 <Select
                   value={fixation || ""}
                   options={options4}
-                  placeholder="Select Option"
+                  placeholder={options4.find(opt =>opt.value === fixation)?.label || "Select Option"}
                   onChange={(value) => {handleReferenceChange(11 , value); setFixation(value);}}
                   className="dark:bg-dark-900"
                 />
@@ -243,7 +288,7 @@ export default function Details({ product }: DetailsProps) {
                 <Select
                   value={renfortbas || ""}
                   options={options5}
-                  placeholder="Select Option"
+                  placeholder={options5.find(opt =>opt.value === renfortbas)?.label || "Select Option"}
                   onChange={(value) => {handleReferenceChange(12 , value); setRenfortbas(value);}}
                   className="dark:bg-dark-900"
                 />
@@ -258,7 +303,7 @@ export default function Details({ product }: DetailsProps) {
                 <Select
                   value={fond || ""}
                   options={options6}
-                  placeholder="Select Option"
+                  placeholder={options6.find(opt =>opt.value === fond)?.label || "Select Option"}
                   onChange={(value) => {handleReferenceChange(13 , value); setFond(value);}}
                   className="dark:bg-dark-900"
                 />
@@ -273,7 +318,7 @@ export default function Details({ product }: DetailsProps) {
                 <Select
                   value={dotation || ""}
                   options={options7}
-                  placeholder="Select Option"
+                  placeholder={options7.find(opt =>opt.value === dotation)?.label || "Select Option"}
                   onChange={(value) => {handleReferenceChange(14 , value); setDotation(value);}}
                   className="dark:bg-dark-900"
                 />

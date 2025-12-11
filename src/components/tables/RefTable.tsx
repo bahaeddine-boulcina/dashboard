@@ -13,7 +13,14 @@ import { ScrollShadow } from "@heroui/scroll-shadow";
 interface ProductData {
   id: number;
   reference: string;
-  clientId?: number; // Add this field to link products to clients
+  clientId?: number;
+}
+
+// type of objects coming from the API
+interface ProductApi {
+  id: number;
+  reference: string;
+  id_client?: number;
 }
 
 interface RefTableProps {
@@ -26,37 +33,34 @@ export default function RefTable({ selectedUserId, selectedProduct, onSelectProd
   const [search, setSearch] = useState("");
   const [tableData, setTableData] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [product, setProduct] = useState([]);
-
+  const [product, setProduct] = useState<ProductApi[]>([]); // <-- just typed
 
   useEffect(() => {
-  const url = selectedUserId
-    ? `/api/product?clientId=${selectedUserId}`
-    : '/api/product';
+    const url = selectedUserId
+      ? `/api/product?clientId=${selectedUserId}`
+      : "/api/product";
 
-  fetch(url, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then(res => res.json())
-    .then(data => {
-      const formattedData = data.map((item: any) => ({
-        id: item.id,
-        reference: item.reference,
-        clientId: item.id_client
-      }));
-      setProduct(data);
-      setTableData(formattedData);
-      setLoading(false);
+    fetch(url, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
     })
-    .catch(error => {
-      console.error('Error fetching products:', error);
-      setLoading(false);
-    });
-}, [selectedUserId]); // Re-fetch when selectedUserId changes
+      .then((res) => res.json())
+      .then((data: ProductApi[]) => {
+        const formattedData = data.map((item) => ({
+          id: item.id,
+          reference: item.reference,
+          clientId: item.id_client,
+        }));
+        setProduct(data);
+        setTableData(formattedData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+        setLoading(false);
+      });
+  }, [selectedUserId]);
 
-
-  // Filter by selected user first, then by search
   const filteredData = tableData
     .filter((row) => selectedUserId === null || row.clientId === selectedUserId)
     .filter((row) => row.reference.toLowerCase().includes(search.toLowerCase()));
@@ -71,9 +75,7 @@ export default function RefTable({ selectedUserId, selectedProduct, onSelectProd
 
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] p-6 min-h-100 max-h-100">
-      {/* Search Input */}
       <div className="flex justify-end items-center mb-4">
-
         <input
           type="text"
           placeholder="Search…"
@@ -98,11 +100,16 @@ export default function RefTable({ selectedUserId, selectedProduct, onSelectProd
                 {filteredData.map((row) => (
                   <TableRow
                     key={row.id}
-                    className={`cursor-pointer  hover:bg-gray-50 dark:hover:bg-white/[0.05] ${selectedProduct?.[0]?.id === row.id ? "bg-blue-50 dark:bg-blue-900/30" : ""}`}
-                    onClick={() =>
-                    {onSelectProduct(product);
-                    console.log("Selected product:", product);}
-                    }
+                    className={`cursor-pointer hover:bg-gray-50 dark:hover:bg-white/[0.05] ${
+                      selectedProduct?.[0]?.id === row.id ? "bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500" : ""
+                    }`}
+                    onClick={() => {
+                      const selected = product.find((p: ProductApi) => p.id === row.id);
+                      if (selected) {
+                        onSelectProduct([selected]);
+                        console.log("Selected product:", selected);
+                      }
+                    }}
                   >
                     <TableCell className="px-4 py-3 font-medium text-gray-600 text-start text-theme-sm dark:text-gray-400">
                       {row.reference}

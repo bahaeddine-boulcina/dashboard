@@ -22,13 +22,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { id, nom, liste_noire, observation } = body; // adjust fields as per your table
+  const { nom, liste_noire, observation } = body; // adjust fields as per your table
   const connection = await getConnection();
 
   // Insert a new client
   const [result] = await connection.query(
-    'INSERT INTO client (id, nom, liste_noire, observation) VALUES (?, ?, ?, ?)',
-    [id, nom, liste_noire, observation]
+    'INSERT INTO client (nom, liste_noire, observation) VALUES (?, ?, ?, ?)',
+    [nom, liste_noire, observation]
   ) as [mysql.ResultSetHeader, any];
   await connection.end();
   return NextResponse.json({ insertId: (result as mysql.ResultSetHeader).insertId });
